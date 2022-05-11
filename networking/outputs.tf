@@ -23,3 +23,9 @@ output "vpc_security_group_ids" {
 output "external-elb" {
   value = aws_lb.external-elb
 }
+
+output "lb_dns_name" {
+  #   count       = length(var.public_cidrs)
+  description = "The DNS name of the load balancer"
+  value       = aws_lb.external-elb.dns_name
+}

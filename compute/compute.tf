@@ -1,3 +1,4 @@
+#ami data
 data "aws_ami" "linux" {
   most_recent = true
 
@@ -14,6 +15,7 @@ data "aws_ami" "linux" {
   owners = ["amazon"]
 }
 
+#Create autoscaling group launch template
 resource "aws_launch_template" "web" {
   name_prefix            = "web"
   image_id               = data.aws_ami.linux.id
@@ -26,6 +28,7 @@ resource "aws_launch_template" "web" {
   }
 }
 
+#create autoscaling group
 resource "aws_autoscaling_group" "web" {
   name                = "web"
   vpc_zone_identifier = tolist(var.public_subnet)

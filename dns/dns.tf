@@ -13,13 +13,12 @@ resource "aws_acm_certificate" "cert" {
 }
 
 #DNS Validation with Route53
-
-data "aws_route53_zone" "example" {
+data "aws_route53_zone" "dns" {
   name         = var.zone_name
   private_zone = false
 }
 
-resource "aws_route53_record" "example" {
+resource "aws_route53_record" "dns" {
   for_each = {
     for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => {
       name   = dvo.resource_record_name
@@ -33,16 +32,16 @@ resource "aws_route53_record" "example" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id         = data.aws_route53_zone.example.zone_id
+  zone_id         = data.aws_route53_zone.dns.zone_id
 }
 
-resource "aws_acm_certificate_validation" "example" {
+resource "aws_acm_certificate_validation" "dns" {
   certificate_arn         = aws_acm_certificate.cert.arn
-  validation_record_fqdns = [for record in aws_route53_record.example : record.fqdn]
+  validation_record_fqdns = [for record in aws_route53_record.dns : record.fqdn]
 }
 
 resource "aws_route53_record" "www" {
-  zone_id = data.aws_route53_zone.example.zone_id
+  zone_id = data.aws_route53_zone.dns.zone_id
   name    = var.record_name
   type    = "A"
 

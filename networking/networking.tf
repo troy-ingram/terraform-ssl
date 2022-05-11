@@ -125,6 +125,7 @@ resource "aws_security_group" "webserver-sg" {
   }
 }
 
+#create internet facing ALB
 resource "aws_lb" "external-elb" {
   name               = "External-LB"
   internal           = false
@@ -150,10 +151,6 @@ resource "aws_lb_listener" "external-elb1" {
   port              = "80"
   protocol          = "HTTP"
 
-  #   default_action {
-  #     type             = "forward"
-  #     target_group_arn = aws_lb_target_group.external-elb.arn
-  #   }
   default_action {
     type = "redirect"
 
@@ -165,7 +162,6 @@ resource "aws_lb_listener" "external-elb1" {
     }
   }
 }
-
 
 resource "aws_lb_listener" "external-elb2" {
   load_balancer_arn = aws_lb.external-elb.arn
@@ -180,8 +176,4 @@ resource "aws_lb_listener" "external-elb2" {
   }
 }
 
-output "lb_dns_name" {
-  #   count       = length(var.public_cidrs)
-  description = "The DNS name of the load balancer"
-  value       = aws_lb.external-elb.dns_name
-}
+
