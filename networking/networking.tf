@@ -11,7 +11,7 @@ resource "aws_subnet" "web-subnet" {
   count                   = length(var.public_cidrs)
   vpc_id                  = aws_vpc.my-vpc.id
   cidr_block              = var.public_cidrs[count.index]
-  availability_zone       = ["us-east-1a", "us-east-1b", "us-east-1c", "us-east-1d", "us-east-1e", "us-east-1f"][count.index]
+  availability_zone       = var.availability_zones[count.index]
   map_public_ip_on_launch = true
 
   tags = {
@@ -25,7 +25,7 @@ resource "aws_subnet" "application-subnet" {
   count                   = length(var.private_cidrs)
   vpc_id                  = aws_vpc.my-vpc.id
   cidr_block              = var.private_cidrs[count.index]
-  availability_zone       = ["us-east-1a", "us-east-1b", "us-east-1c", "us-east-1d", "us-east-1e", "us-east-1f"][count.index]
+  availability_zone       = var.availability_zones[count.index]
   map_public_ip_on_launch = false
 
   tags = {

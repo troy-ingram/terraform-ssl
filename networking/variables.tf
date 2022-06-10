@@ -14,4 +14,8 @@ variable "private_cidrs" {
   type = list(any)
 }
 
+variable "availability_zones" {
+  type = list(any)
+}
+
 
