@@ -1,6 +1,6 @@
 # terraform-ssl
 
-The purpose of this Terraform code is to attach an AWS ACM Certificate to an ALB to allow HTTPS traffic.
+The purpose of this Terraform code is to attach an AWS ACM Certificate to an ALB to allow HTTPS traffic using Modules.
 
 This Terraform code will create the following AWS resources in US-East-1:
 1 Application Load Balancer
